@@ -1,26 +1,30 @@
 package Classes;
 
+import java.util.List;
+
 public class Person {
 
     String nome;
+    List<Movimento> movimentos;
     int vida;
     int CA;
 
-    public Person(String nome, int vida, int ca) {
+    public Person(String nome, int vida, int ca, List<Movimento> movimentos) {
         this.nome = nome;
         this.vida = vida;
         this.CA = ca;
+        this.movimentos = movimentos;
     }
-    
-    public String getNome(){
+
+    public String getNome() {
         return this.nome;
     }
-    
-    public void setNome(String nome){
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    public int getVida(){
+
+    public int getVida() {
         return this.vida;
     }
 
@@ -31,17 +35,13 @@ public class Person {
     public void setCA(int CA) {
         this.CA = CA;
     }
-    
-    public void setVida(int vida){
+
+    public void setVida(int vida) {
         this.vida = vida;
     }
-    
-       public void tomarGolpe (int dano){
-        this.vida = vida - dano;
+
+    public Movimento agir(int escolha) {
+        // procurar na lista de movimentos o numero dessa escolha
+        return this.movimentos.get(escolha);
     }
-       
-      public void recuperarVida (int cura){
-        this.vida = vida + cura;
-    }
-    
 }
