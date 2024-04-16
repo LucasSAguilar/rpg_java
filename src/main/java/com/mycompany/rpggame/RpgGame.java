@@ -1,6 +1,9 @@
 package com.mycompany.rpggame;
 
+import Classes.Luta;
 import Classes.Movimento;
+import Classes.Partida;
+import Classes.Person;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,5 +35,12 @@ public class RpgGame {
         setTres.add(pegar_folego);
         setTres.add(chute);
 
+        Person playerUm = new Person("Shadow", 15, 6, setUm);
+        Person playerDois = new Person("Dragon", 20, 8, setDois);
+        Person playerTres = new Person("Sun", 17, 7, setTres);
+
+        Luta luta = new Luta(playerUm, playerDois);
+        Partida partida = new Partida(luta);
+        partida.iniciar();
     }
 }

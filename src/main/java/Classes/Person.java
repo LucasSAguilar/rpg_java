@@ -44,4 +44,12 @@ public class Person {
         // procurar na lista de movimentos o numero dessa escolha
         return this.movimentos.get(escolha);
     }
+
+    public List<Movimento> getMovimentos() {
+        return movimentos;
+    }
+
+    public void setMovimentos(List<Movimento> movimentos) {
+        this.movimentos = movimentos;
+    }
 }
