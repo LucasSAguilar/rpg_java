@@ -8,12 +8,14 @@ public class Person {
     List<Movimento> movimentos;
     int vida;
     int CA;
+    int tenacidade;
 
-    public Person(String nome, int vida, int ca, List<Movimento> movimentos) {
+    public Person(String nome, int vida, int ca, List<Movimento> movimentos, int tenacidade) {
         this.nome = nome;
         this.vida = vida;
         this.CA = ca;
         this.movimentos = movimentos;
+        this.tenacidade = tenacidade;
     }
 
     public String getNome() {
@@ -43,6 +45,14 @@ public class Person {
     public Movimento agir(int escolha) {
         // procurar na lista de movimentos o numero dessa escolha
         return this.movimentos.get(escolha);
+    }
+
+    public int getTenacidade() {
+        return tenacidade;
+    }
+
+    public void setTenacidade(int tenacidade) {
+        this.tenacidade = tenacidade;
     }
 
     public List<Movimento> getMovimentos() {
