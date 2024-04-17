@@ -72,55 +72,97 @@ public class Luta {
         }
 
         while (lutadorUm.getVida() > 0 && lutadorDois.getVida() > 0) {
+
+            int dano = 0;
+            boolean acertou = false;
+            this.setRodada(this.getRodada() + 1);
+            int tenacidadeJogadorUm = lutadorUm.getTenacidade();
+            int tenacidadeJogadorDois = lutadorDois.getTenacidade();
+            System.out.println("\n \n \n \n------------------------------------------------------------------------------------------------------------------ \n \n \n \n");
+            System.out.println("====================" + this.getRodada() + "======================");
+            System.out.println("HP jogador " + lutadorDois.getNome() + " | " + lutadorDois.getVida());
+            System.out.println("HP jogador " + lutadorUm.getNome() + " | " + lutadorUm.getVida());
+            System.out.println("====================" + this.getRodada() + "======================");
+
             Movimento movimentoEscolhido = definirMovimento(jogadorSelecionado);
-            boolean acertou = definirAcerto(jogadorInativo, movimentoEscolhido);
-            boolean teveAcertoCritico = definirAcertoCritico();
-            
-            if (jogadorSelecionado == lutadorUm) {
-                jogadorSelecionado = lutadorDois;
-                jogadorInativo = lutadorUm;
+            acertou = definirAcerto(jogadorInativo, movimentoEscolhido);
+
+            if (acertou) {
+                jogadorInativo.setTenacidade(jogadorInativo.getTenacidade() - movimentoEscolhido.getImpacto());
+                dano = definirDano(movimentoEscolhido);
+                System.out.println(lutadorUm.getNome() + lutadorUm.getTenacidade());
+                System.out.println(lutadorDois.getNome() + lutadorDois.getTenacidade());
 
             }
-            if (jogadorSelecionado == lutadorDois) {
-                jogadorSelecionado = lutadorUm;
-                jogadorInativo = lutadorDois;
+            if (jogadorSelecionado == lutadorUm) {
+                lutadorDois.setVida(lutadorDois.getVida() - dano);
+                if (lutadorDois.getTenacidade() <= 0) {
+                    System.out.println("Me parece que o " + lutadorDois.getNome() + "está abalado! Pode atacar novamente " + lutadorUm.getNome());
+                    lutadorDois.setTenacidade(tenacidadeJogadorDois);
+
+                } else {
+                    jogadorSelecionado = lutadorDois;
+                    jogadorInativo = lutadorUm;
+                }
+
+            } else if (jogadorSelecionado == lutadorDois) {
+                lutadorUm.setVida(lutadorUm.getVida() - dano);
+                if (lutadorUm.getTenacidade() <= 0) {
+                    System.out.println("Me parece que o " + lutadorUm.getNome() + "está abalado! Pode atacar novamente " + lutadorDois.getNome());
+                    lutadorUm.setTenacidade(tenacidadeJogadorUm);
+                } else {
+
+                    jogadorSelecionado = lutadorUm;
+                    jogadorInativo = lutadorDois;
+                }
             }
         }
 
+        System.out.println("A luta acabou!");
+        System.out.println("O vencedor foi: " + jogadorSelecionado.getNome());
     }
 
     public Movimento definirMovimento(Person jogadorSelecionado) {
         List<Movimento> movimentos = jogadorSelecionado.getMovimentos();
         System.out.println("Escolha seu movimento, " + jogadorSelecionado.getNome());
         for (int i = 0; i <= 2; i++) {
-            System.out.println(i + " - " + movimentos.get(i));
+            System.out.println(i + " - " + movimentos.get(i).getNome());
         }
         Scanner scanner = new Scanner(System.in);
         int numEscolhido = scanner.nextInt();
         return movimentos.get(numEscolhido);
     }
-    
 
     public boolean definirAcerto(Person atacado, Movimento movimento) {
         boolean acertou = false;
         int numDado = rodarDado();
         int resultado = numDado - movimento.dificuldade_acerto;
         if (resultado > atacado.CA) {
-            acertou = true;
             System.out.println("--------- Você acertou em cheio! ---------");
+            acertou = true;
         } else {
             System.out.println("--------- Que pena, você errou! ---------");
         }
         System.out.println("Os resultados foram:");
-        System.out.println("Valor no dado: " + numDado);
-        System.out.println("Dificuldade de acerto: " + movimento.getDificuldade_acerto());
-        System.out.println("CA do inimigo: " + atacado.getCA());
-        System.out.println("Valor final: " + resultado);
+        System.out.println("| Valor no dado: " + numDado);
+        System.out.println("| Dificuldade de acerto: " + movimento.getDificuldade_acerto());
+        System.out.println("| CA do inimigo: " + atacado.getCA());
+        System.out.println("| Valor final: " + resultado);
 
         return acertou;
     }
 
-    public boolean definirAcertoCritico(){
-    return true;
+    public int definirDano(Movimento movimento) {
+        int dano = movimento.getDano();
+        Random random = new Random();
+        int numRandom = random.nextInt(10) + 1;
+        if (numRandom <= movimento.getCritico()) {
+            dano = dano * 2;
+            System.out.println("FOI UM ACERTO CRÍTICO!");
+        }
+
+        System.out.println("| Seu dano foi: " + dano);
+
+        return dano;
     }
 }
