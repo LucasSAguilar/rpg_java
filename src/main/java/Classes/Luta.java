@@ -41,7 +41,7 @@ public class Luta {
 
     public int rodarDado() {
         Random random = new Random();
-        return random.nextInt(19) + 1;
+        return random.nextInt(20) + 1;
     }
 
     public int definirPrimeiroAgir() {

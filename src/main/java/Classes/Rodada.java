@@ -26,6 +26,4 @@ public class Rodada {
         this.playerInativo = playerInativo;
     }
     
-    
-
 }
